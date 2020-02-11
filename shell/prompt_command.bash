@@ -27,25 +27,25 @@ set_prompt() {
   # Capture the duration of last command; e.g. " (~12s)"
   local DURATION=$(($SECONDS - $TIMER))
   if [ "$DURATION" -ne 0 ]; then
-    DURATION="\[\e[2;31m\] (~${DURATION}s)\[\e[m\]"
+    DURATION=" \[\e[2;31m\](~${DURATION}s)\[\e[m\]"
   else
     DURATION=""
   fi
   unset TIMER
 
   # e.g. "user@machine"
-  local USER="\[\e[36m\]\u\[\e[m\]@\[\e[32m\]\h\[\e[m\]"
+  local USER="\[\e[36m\]\u\[\e[m\]@\[\e[34m\]\h\[\e[m\]"
 
   # e.g. "~/foo/bar"
-  local DIR="\[\e[1;33m\]\w\[\e[m\]"
+  local DIR="\[\e[32m\]\w\[\e[m\]"
 
   # e.g. " (some_git_branch_name)"
   local BRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-  [[ "$BRANCH" ]] && BRANCH="\[\e[33m\] (${BRANCH})\[\e[m\]"
+  [[ "$BRANCH" ]] && BRANCH=" \[\e[33m\](${BRANCH})\[\e[m\]"
 
   local PROMPT="\[\e[32m\]⮑  \[\e[m\]"
   [[ "$EXIT_CODE" -ne 0 ]] && PROMPT="\[\e[31m\]⮑  \[\e[m\]"
 
-  PS1="${USER}: ${DIR}${BRANCH}${DURATION}\n${PROMPT}"
+  PS1="\n${USER}: ${DIR}${BRANCH}${DURATION}\n${PROMPT}"
   PS2=$PROMPT
 }
